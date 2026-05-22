@@ -36,7 +36,7 @@
         .total-display {
             font-size: 3em;
             font-weight: bold;
-            color: #d93025; /* 合計を目立たせる赤色 */
+            color: #d93025;
             line-height: 1;
         }
         .grid-container {
@@ -68,14 +68,11 @@
             color: #0056b3;
             margin-bottom: 15px;
         }
-        
-        /* ボタンを横並びにするための設定 */
         .button-group {
             display: flex;
             gap: 8px;
             width: 100%;
         }
-        
         button {
             padding: 10px 0;
             font-size: 1.2em;
@@ -92,25 +89,20 @@
         button:hover {
             opacity: 0.85;
         }
-        
-        /* ＋と－のボタンそれぞれの色と幅の設定 */
         .btn-plus {
-            background-color: #0d6efd; /* 青色 */
-            flex: 1; /* 幅を均等にする */
+            background-color: #0d6efd;
+            flex: 1;
         }
         .btn-minus {
-            background-color: #6c757d; /* 灰色 */
+            background-color: #6c757d;
             flex: 1;
         }
-        
-        /* 赤伝用の特別カラー */
         .btn-plus-red {
-            background-color: #dc3545; /* 赤色 */
+            background-color: #dc3545;
             flex: 1;
         }
-
         .btn-reset {
-            background-color: #343a40; /* 濃い灰色 */
+            background-color: #343a40;
             width: 100%;
             padding: 15px;
             font-size: 1.1em;
@@ -243,36 +235,44 @@
 </div>
 
 <script>
-    // PayPayを含めた全13項目のデータを初期化
-    let counts = {
-        cashFree: 0,
-        cashNominated: 0,
-        paypayFree: 0,
-        paypayNominated: 0,
-        contractFree: 0,
-        contractNominated: 0,
-        ticketFree: 0,
-        ticketNominated: 0,
-        pcFree: 0,
-        pcNominated: 0,
-        cutFree: 0,
-        cutNominated: 0,
-        redSlip: 0
+    // デフォルトの初期値（すべて0）
+    const defaultCounts = {
+        cashFree: 0, cashNominated: 0, paypayFree: 0, paypayNominated: 0,
+        contractFree: 0, contractNominated: 0, ticketFree: 0, ticketNominated: 0,
+        pcFree: 0, pcNominated: 0, cutFree: 0, cutNominated: 0, redSlip: 0
     };
+
+    // ★ ローカルストレージからデータを読み込む（データが無ければデフォルト値を使う）
+    let counts = JSON.parse(localStorage.getItem('counterApp_data')) || { ...defaultCounts };
+
+    // ★ ページ読み込み時に、保存されていた数字を画面に反映させる
+    window.onload = function() {
+        for (let key in counts) {
+            document.getElementById('count-' + key).innerText = counts[key];
+        }
+        updateTotal();
+    };
+
+    // ★ データをローカルストレージに保存する関数
+    function saveData() {
+        localStorage.setItem('counterApp_data', JSON.stringify(counts));
+    }
 
     // ＋ボタン：数字を増やす
     function increment(key) {
         counts[key]++;
         document.getElementById('count-' + key).innerText = counts[key];
         updateTotal();
+        saveData(); // 追加：変更を保存
     }
 
-    // －ボタン：数字を減らす（0より小さくならないようにする）
+    // －ボタン：数字を減らす
     function decrement(key) {
         if (counts[key] > 0) {
             counts[key]--;
             document.getElementById('count-' + key).innerText = counts[key];
             updateTotal();
+            saveData(); // 追加：変更を保存
         }
     }
 
@@ -287,13 +287,14 @@
 
     // すべてのカウントを0に戻す
     function resetAll() {
-        if(!confirm("すべてのカウントをリセットしますか？")) return; // 誤タップ防止で確認メッセージを出します
+        if(!confirm("すべてのカウントをリセットしますか？")) return;
 
         for (let key in counts) {
             counts[key] = 0;
             document.getElementById('count-' + key).innerText = 0;
         }
         updateTotal();
+        saveData(); // 追加：0になった状態を保存
     }
 </script>
 
