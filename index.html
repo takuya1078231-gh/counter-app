@@ -19,7 +19,7 @@
             padding: 20px 30px;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
         }
         .header {
@@ -41,7 +41,7 @@
         }
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -60,7 +60,7 @@
             font-weight: bold;
             margin-bottom: 10px;
             color: #495057;
-            min-height: 2.4em; /* 2行になっても高さを揃える */
+            min-height: 2.4em;
         }
         .item-count {
             font-size: 2em;
@@ -68,9 +68,17 @@
             color: #0056b3;
             margin-bottom: 15px;
         }
+        
+        /* ボタンを横並びにするための設定 */
+        .button-group {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+        }
+        
         button {
-            padding: 10px;
-            font-size: 1em;
+            padding: 10px 0;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
             border: none;
@@ -79,24 +87,34 @@
             transition: opacity 0.2s, transform 0.1s;
         }
         button:active {
-            transform: scale(0.95); /* クリック時に少しへこむアニメーション */
+            transform: scale(0.95);
         }
         button:hover {
             opacity: 0.85;
         }
-        .btn-add {
+        
+        /* ＋と－のボタンそれぞれの色と幅の設定 */
+        .btn-plus {
             background-color: #0d6efd; /* 青色 */
-            width: 100%;
+            flex: 1; /* 幅を均等にする */
         }
-        .btn-add-red {
-            background-color: #dc3545; /* 赤伝用 */
-            width: 100%;
+        .btn-minus {
+            background-color: #6c757d; /* 灰色 */
+            flex: 1;
         }
+        
+        /* 赤伝用の特別カラー */
+        .btn-plus-red {
+            background-color: #dc3545; /* 赤色 */
+            flex: 1;
+        }
+
         .btn-reset {
-            background-color: #6c757d;
+            background-color: #343a40; /* 濃い灰色 */
             width: 100%;
             padding: 15px;
             font-size: 1.1em;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -112,62 +130,112 @@
         <div class="counter-card">
             <div class="item-name">現金<br>（フリー）</div>
             <div class="item-count" id="count-cashFree">0</div>
-            <button class="btn-add" onclick="increment('cashFree')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('cashFree')">－</button>
+                <button class="btn-plus" onclick="increment('cashFree')">＋</button>
+            </div>
         </div>
         <div class="counter-card">
             <div class="item-name">現金<br>（指名）</div>
             <div class="item-count" id="count-cashNominated">0</div>
-            <button class="btn-add" onclick="increment('cashNominated')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('cashNominated')">－</button>
+                <button class="btn-plus" onclick="increment('cashNominated')">＋</button>
+            </div>
+        </div>
+
+        <div class="counter-card">
+            <div class="item-name">PayPay<br>（フリー）</div>
+            <div class="item-count" id="count-paypayFree">0</div>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('paypayFree')">－</button>
+                <button class="btn-plus" onclick="increment('paypayFree')">＋</button>
+            </div>
+        </div>
+        <div class="counter-card">
+            <div class="item-name">PayPay<br>（指名）</div>
+            <div class="item-count" id="count-paypayNominated">0</div>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('paypayNominated')">－</button>
+                <button class="btn-plus" onclick="increment('paypayNominated')">＋</button>
+            </div>
         </div>
 
         <div class="counter-card">
             <div class="item-name">契約店<br>（フリー）</div>
             <div class="item-count" id="count-contractFree">0</div>
-            <button class="btn-add" onclick="increment('contractFree')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('contractFree')">－</button>
+                <button class="btn-plus" onclick="increment('contractFree')">＋</button>
+            </div>
         </div>
         <div class="counter-card">
             <div class="item-name">契約店<br>（指名）</div>
             <div class="item-count" id="count-contractNominated">0</div>
-            <button class="btn-add" onclick="increment('contractNominated')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('contractNominated')">－</button>
+                <button class="btn-plus" onclick="increment('contractNominated')">＋</button>
+            </div>
         </div>
 
         <div class="counter-card">
             <div class="item-name">チケット<br>（フリー）</div>
             <div class="item-count" id="count-ticketFree">0</div>
-            <button class="btn-add" onclick="increment('ticketFree')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('ticketFree')">－</button>
+                <button class="btn-plus" onclick="increment('ticketFree')">＋</button>
+            </div>
         </div>
         <div class="counter-card">
             <div class="item-name">チケット<br>（指名）</div>
             <div class="item-count" id="count-ticketNominated">0</div>
-            <button class="btn-add" onclick="increment('ticketNominated')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('ticketNominated')">－</button>
+                <button class="btn-plus" onclick="increment('ticketNominated')">＋</button>
+            </div>
         </div>
 
         <div class="counter-card">
             <div class="item-name">PC<br>（フリー）</div>
             <div class="item-count" id="count-pcFree">0</div>
-            <button class="btn-add" onclick="increment('pcFree')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('pcFree')">－</button>
+                <button class="btn-plus" onclick="increment('pcFree')">＋</button>
+            </div>
         </div>
         <div class="counter-card">
             <div class="item-name">PC<br>（指名）</div>
             <div class="item-count" id="count-pcNominated">0</div>
-            <button class="btn-add" onclick="increment('pcNominated')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('pcNominated')">－</button>
+                <button class="btn-plus" onclick="increment('pcNominated')">＋</button>
+            </div>
         </div>
 
         <div class="counter-card">
             <div class="item-name">カット<br>（フリー）</div>
             <div class="item-count" id="count-cutFree">0</div>
-            <button class="btn-add" onclick="increment('cutFree')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('cutFree')">－</button>
+                <button class="btn-plus" onclick="increment('cutFree')">＋</button>
+            </div>
         </div>
         <div class="counter-card">
             <div class="item-name">カット<br>（指名）</div>
             <div class="item-count" id="count-cutNominated">0</div>
-            <button class="btn-add" onclick="increment('cutNominated')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('cutNominated')">－</button>
+                <button class="btn-plus" onclick="increment('cutNominated')">＋</button>
+            </div>
         </div>
 
         <div class="counter-card">
             <div class="item-name"><br>赤伝</div>
             <div class="item-count" id="count-redSlip">0</div>
-            <button class="btn-add-red" onclick="increment('redSlip')">追加</button>
+            <div class="button-group">
+                <button class="btn-minus" onclick="decrement('redSlip')">－</button>
+                <button class="btn-plus-red" onclick="increment('redSlip')">＋</button>
+            </div>
         </div>
     </div>
 
@@ -175,10 +243,12 @@
 </div>
 
 <script>
-    // 各項目のカウントを管理するオブジェクト
+    // PayPayを含めた全13項目のデータを初期化
     let counts = {
         cashFree: 0,
         cashNominated: 0,
+        paypayFree: 0,
+        paypayNominated: 0,
         contractFree: 0,
         contractNominated: 0,
         ticketFree: 0,
@@ -190,33 +260,40 @@
         redSlip: 0
     };
 
-    // 特定の項目をカウントアップする関数
+    // ＋ボタン：数字を増やす
     function increment(key) {
-        counts[key]++; // 指定された項目の数字を1増やす
-        document.getElementById('count-' + key).innerText = counts[key]; // 画面の数字を更新
-        updateTotal(); // 合計を再計算
+        counts[key]++;
+        document.getElementById('count-' + key).innerText = counts[key];
+        updateTotal();
     }
 
-    // 合計数を計算して表示する関数
+    // －ボタン：数字を減らす（0より小さくならないようにする）
+    function decrement(key) {
+        if (counts[key] > 0) {
+            counts[key]--;
+            document.getElementById('count-' + key).innerText = counts[key];
+            updateTotal();
+        }
+    }
+
+    // 合計数を計算して表示
     function updateTotal() {
         let total = 0;
-        // すべての項目の数値を足し合わせる
         for (let key in counts) {
             total += counts[key];
         }
-        document.getElementById('total-count').innerText = total; // 合計の表示を更新
+        document.getElementById('total-count').innerText = total;
     }
 
-    // すべてのカウントを0に戻す関数
+    // すべてのカウントを0に戻す
     function resetAll() {
-        // 確認メッセージを出したい場合は以下のコメント(//)を外してください
-        // if(!confirm("すべてのカウントをリセットしますか？")) return;
+        if(!confirm("すべてのカウントをリセットしますか？")) return; // 誤タップ防止で確認メッセージを出します
 
         for (let key in counts) {
-            counts[key] = 0; // データを0にする
-            document.getElementById('count-' + key).innerText = 0; // 画面の表示を0にする
+            counts[key] = 0;
+            document.getElementById('count-' + key).innerText = 0;
         }
-        updateTotal(); // 合計も0に更新する
+        updateTotal();
     }
 </script>
 
